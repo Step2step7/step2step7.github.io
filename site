@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step — Coaching personnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #fdfcf9;
+    --cream: #faf7f2;
+    --light-gray: #f0ede8;
+    --border: #e2dfda;
+    --text-muted: #8a8782;
+    --text-body: #4a4742;
+    --text-dark: #1e1c19;
+    --gold: #c4a96a;
+    --gold-light: #e8d9b8;
+    --gold-dark: #b89a4a;
+    --shadow-sm: 0 8px 20px rgba(0,0,0,0.03);
+    --shadow-md: 0 12px 30px rgba(0,0,0,0.05);
+    --shadow-lg: 0 25px 40px rgba(0,0,0,0.08);
+    --transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-body);
+    line-height: 1.7;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #fefcf8 50%, #faf7f2 100%);
+  }
+
+  /* Animation subtile de fond */
+  @keyframes bgPulse {
+    0% { background: linear-gradient(135deg, #ffffff 0%, #fefcf8 50%, #faf7f2 100%); }
+    100% { background: linear-gradient(135deg, #fefcf8 0%, #faf7f2 50%, #ffffff 100%); }
+  }
+  body {
+    animation: bgPulse 15s ease infinite alternate;
+  }
+
+  /* Particules lumineuses légères */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .particles span {
+    position: absolute;
+    background: rgba(196, 169, 106, 0.12);
+    border-radius: 50%;
+    animation: floatParticle 18s infinite linear;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+    50% { transform: translateY(-80px) translateX(30px) scale(1.1); opacity: 0.5; }
+    100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 10;
+    background: transparent;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 6vw;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+  }
+  nav.scrolled {
+    height: 60px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow-sm);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .logo:hover {
+    color: var(--gold);
+    letter-spacing: 0.14em;
+  }
+  nav a.cta-nav {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    text-decoration: none;
+    border: 1px solid var(--text-dark);
+    padding: 9px 24px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    background: transparent;
+  }
+  nav a.cta-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--text-dark);
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+  nav a.cta-nav:hover {
+    color: white;
+    border-color: var(--text-dark);
+  }
+  nav a.cta-nav:hover::before {
+    left: 0;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 6vw 80px;
+    position: relative;
+    text-align: center;
+  }
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 7vw, 70px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-quote {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 48px;
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-quote span {
+    display: block;
+    font-size: 14px;
+    margin-top: 8px;
+    font-style: normal;
+    color: var(--gold);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn-primary, .btn-secondary {
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--text-dark);
+    color: white;
+    padding: 14px 36px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+  .btn-primary:hover::before {
+    left: 0;
+  }
+  .btn-primary:hover {
+    color: var(--text-dark);
+  }
+  .btn-secondary {
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--text-dark);
+  }
+  .btn-secondary:hover {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    gap: 15px;
+  }
+
+  /* Sections */
+  section {
+    padding: 100px 6vw;
+    position: relative;
+    background: transparent;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+  }
+  .section-label::before, .section-label::after {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 300;
+    color: var(--text-dark);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 550px;
+    margin: 0 auto 60px;
+    text-align: center;
+  }
+
+  /* Packs */
+  .packs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .pack-card {
+    background: white;
+    padding: 44px 32px 40px;
+    border-radius: 24px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .pack-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gold-light);
+  }
+  .pack-card.featured {
+    border-top: 4px solid var(--gold);
+    transform: scale(1.02);
+  }
+  .pack-card.featured:hover {
+    transform: translateY(-12px) scale(1.02);
+  }
+  .pack-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(196,169,106,0.1);
+    padding: 5px 14px;
+    display: inline-block;
+    margin-bottom: 28px;
+    border-radius: 30px;
+  }
+  .pack-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+  }
+  .pack-price strong {
+    font-size: 44px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .pack-price {
+    font-size: 13px;
+    margin-bottom: 32px;
+    color: var(--text-muted);
+  }
+  .pack-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+  .pack-category {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 20px 0 8px;
+  }
+  .pack-items {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  .pack-items li {
+    font-size: 13px;
+    padding: 4px 0 4px 18px;
+    position: relative;
+    color: var(--text-body);
+  }
+  .pack-items li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 10px;
+  }
+  .pack-cta {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--text-dark);
+    color: var(--text-dark);
+    transition: var(--transition);
+    border-radius: 40px;
+    background: transparent;
+  }
+  .pack-cta:hover {
+    background: var(--text-dark);
+    color: white;
+  }
+
+  /* Témoignages simplifiés */
+  #testimonials {
+    background: rgba(250, 247, 242, 0.6);
+  }
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+  .testimonial-text {
+    font-style: italic;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  .stars {
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .testimonial-author {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 60px;
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* FAQ */
+  .faq-grid {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .faq-question {
+    font-weight: 600;
+    font-size: 18px;
+    padding: 20px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-dark);
+  }
+  .faq-question:hover {
+    color: var(--gold);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-bottom: 20px;
+  }
+
+  /* Contact */
+  #contact {
+    background: var(--cream);
+    text-align: center;
+    border-radius: 40px;
+    margin: 20px 6vw;
+    padding: 80px 6vw;
+  }
+  .contact-cta {
+    display: inline-block;
+    padding: 16px 48px;
+    background: var(--gold);
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: var(--transition);
+  }
+  .contact-cta:hover {
+    background: var(--gold-dark);
+    transform: scale(1.05);
+  }
+
+  /* Footer */
+  .site-footer {
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 40px 6vw;
+    text-align: center;
+  }
+  .footer-description p {
+    color: var(--text-muted);
+    font-size: 13px;
+    max-width: 500px;
+    margin: 0 auto 15px;
+  }
+  .footer-whatsapp a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--gold);
+    color: var(--text-dark);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+  #back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (max-width: 800px) {
+    .packs-grid { grid-template-columns: 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; gap: 20px; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    section { padding: 60px 5vw; }
+  }
+</style>
+</head>
+<body>
+
+<div class="particles">
+  <span style="width: 150px; height: 150px; top: 10%; left: -5%;"></span>
+  <span style="width: 250px; height: 250px; bottom: 0; right: -10%;"></span>
+  <span style="width: 80px; height: 80px; top: 60%; left: 80%;"></span>
+  <span style="width: 120px; height: 120px; bottom: 30%; left: 15%;"></span>
+</div>
+
+<div class="content">
+  <nav id="navbar">
+    <a href="#" class="logo">Step</a>
+    <a href="#contact" class="cta-nav">Prendre contact</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Coaching personnel</p>
+      <h1>Reprenez le contrôle de votre vie<br><em>un pas à la fois</em></h1>
+      <div class="hero-quote">
+        “Le plus gros travail que l'on puisse faire, c'est sur soi-même”
+        <span>— Socrate</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#packs" class="btn-primary">Découvrir les accompagnements</a>
+        <a href="#contact" class="btn-secondary">Me contacter →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="packs">
+    <p class="section-label">Nos formules</p>
+    <h2 class="section-title">Un accompagnement sur mesure</h2>
+    <p class="section-sub">Deux formats pour avancer à votre rythme, avec un suivi humain et des outils concrets.</p>
+    <div class="packs-grid">
+      <!-- Pack Vie quotidienne -->
+      <div class="pack-card">
+        <span class="pack-badge">Personnel</span>
+        <p class="pack-name">Équilibre</p>
+        <div class="pack-price"><strong>70 €</strong> / mois</div>
+        <div class="pack-divider"></div>
+        <p class="pack-category">🧘 Rythme & routines</p>
+        <ul class="pack-items">
+          <li>Établissement d’un planning hebdomadaire personnalisé</li>
+          <li>Création de rituels matin/soir</li>
+          <li>Gestion du temps et priorisation</li>
+          <li>Suivi quotidien par messages (WhatsApp)</li>
+          <li>2 séances individuelles 1:1 par mois (visio)</li>
+          <li>Exercices de pleine conscience & carnet de bord</li>
+          <li>Définition d’objectifs réalistes à 30 jours</li>
+          <li>Accès à une bibliothèque de méditations guidées</li>
+        </ul>
+        <p class="pack-category">🎯 Objectifs perso</p>
+        <ul class="pack-items">
+          <li>Lever les blocages émotionnels</li>
+          <li>Renforcer la confiance en soi</li>
+          <li>Plan d’action “petits pas”</li>
+        </ul>
+        <a href="#contact" class="pack-cta">Choisir cette formule</a>
+      </div>
+      <!-- Pack Vie + Business -->
+      <div class="pack-card featured">
+        <span class="pack-badge">⭐ Global</span>
+        <p class="pack-name">Harmonie</p>
+        <div class="pack-price"><strong>90 €</strong> / mois</div>
+        <div class="pack-divider"></div>
+        <p class="pack-category">⚖️ Équilibre vie pro & perso</p>
+        <ul class="pack-items">
+          <li>Organisation de l’espace de travail & planning</li>
+          <li>Délégation et automatisation des tâches</li>
+          <li>Gestion du stress en milieu professionnel</li>
+          <li>Suivi quotidien (matin/soir) + coaching renforcé</li>
+          <li>6 séances individuelles 1:1 par mois (visio ou présentiel)</li>
+          <li>Mise en place d’un tableau de bord personnel</li>
+          <li>Stratégie de développement professionnel (freelance / salarié)</li>
+          <li>Méthodes d’organisation type GTD adaptées</li>
+        </ul>
+        <p class="pack-category">🚀 Avancer vers ses buts</p>
+        <ul class="pack-items">
+          <li>Définition de la vision à 6 mois</li>
+          <li>Plan d’action concret (carrière + perso)</li>
+          <li>Accountability & ajustements hebdomadaires</li>
+          <li>Accompagnement sur la prise de décision</li>
+          <li>Module de gestion des conflits (travail / maison)</li>
+        </ul>
+        <a href="#contact" class="pack-cta">Choisir cette formule</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <p class="section-label">Témoignages</p>
+    <h2 class="section-title">Ils ont retrouvé un équilibre</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">“En 3 mois, j’ai totalement changé mes habitudes. Je suis plus serein et plus efficace au travail.”</p>
+        <p class="testimonial-author">— Claire D.</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">“Le suivi quotidien m’a permis de ne pas lâcher. Aujourd’hui j’ai trouvé ma voie.”</p>
+        <p class="testimonial-author">— Maxime L.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+      <p class="section-label">À propos</p>
+      <h2 class="section-title">Remettre l’humain au centre</h2>
+      <p style="margin-bottom: 30px;">Coach certifié, je vous aide à construire un rythme de vie durable, à dépasser vos blocages et à avancer sereinement vers vos objectifs, qu’ils soient personnels ou professionnels.</p>
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-number" data-target="34">0</div>
+          <div class="stat-label">Personnes accompagnées</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="90">0</div>
+          <div class="stat-label">Taux de réussite %</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="24">0</div>
+          <div class="stat-label">Disponibilité</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">Des questions ?</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question">Comment se passe la première séance ? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Un appel découverte gratuit de 30 minutes pour cerner vos besoins, définir votre objectif principal et voir si nous sommes compatibles.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Puis-je changer de formule en cours de mois ? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Oui, vous pouvez basculer de “Équilibre” à “Harmonie” en payant la différence.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Les séances sont-elles en ligne ou en présentiel ? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Principalement en visio, mais des rendez-vous terrain sont possibles selon votre secteur.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Prêt à passer à l’action ?</h2>
+    <p class="section-sub">Un premier appel offert pour faire le point ensemble.</p>
+    <a href="mailto:stepcoaching@gmail.com" class="contact-cta">Prendre rendez-vous</a>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-description">
+      <p>Step — Coaching personnel & professionnel</p>
+      <p>Reprenez le pouvoir sur votre vie, un pas après l’autre.</p>
+    </div>
+    <div class="footer-copyright">
+      © 2025 Step Coaching
+    </div>
+    <div class="footer-whatsapp">
+      <a href="https://wa.me/33641549178" target="_blank">
+        <i class="fab fa-whatsapp"></i> Échangeons sur WhatsApp
+      </a>
+    </div>
+  </footer>
+
+  <a href="#" id="back-to-top"><i class="fas fa-arrow-up"></i></a>
+</div>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+    const btn = document.getElementById('back-to-top');
+    if (window.scrollY > 300) btn.classList.add('show');
+    else btn.classList.remove('show');
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const q = item.querySelector('.faq-question');
+    q.addEventListener('click', () => item.classList.toggle('active'));
+  });
+  if (faqItems.length) faqItems[0].classList.add('active');
+
+  const counters = document.querySelectorAll('.stat-number');
+  const animateCounter = (counter) => {
+    const target = +counter.getAttribute('data-target');
+    let count = 0;
+    const update = () => {
+      if (count < target) {
+        count += Math.ceil(target / 30);
+        if (count > target) count = target;
+        counter.innerText = count;
+        setTimeout(update, 30);
+      } else counter.innerText = target;
+    };
+    update();
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(counter => observer.observe(counter));
+</script>
+</body>
+</html>
